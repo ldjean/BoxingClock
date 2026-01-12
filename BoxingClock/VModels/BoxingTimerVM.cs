@@ -232,6 +232,8 @@ namespace BoxingClock.ViewModels
 
             // Clear preset name
             CurrentUISettings.PresetName = string.Empty;
+
+            _ = App.SaveSettingsAsync();
         }
 
         private void ExecuteDeletePreset(TimerConfig preset)
@@ -272,6 +274,7 @@ namespace BoxingClock.ViewModels
             // Force update of all timer-related properties
             OnPropertyChanged(nameof(CountDownDisplay));
             OnPropertyChanged(nameof(RoundStatusText));
+            OnPropertyChanged(nameof(ReadyCount));
         }
 
         private void ExecuteShowSettings()
@@ -339,32 +342,12 @@ namespace BoxingClock.ViewModels
             // Update display properties ALWAYS (even during ready countdown)
             if (e.PropertyName == nameof(_timerService.CountDown) ||
                 e.PropertyName == nameof(_timerService.IsInReadyCountdown) ||
-                e.PropertyName == nameof(_timerService.ReadyCount) || 
+                e.PropertyName == nameof(_timerService.ReadyCount) ||
                 e.PropertyName == nameof(_timerService.IsRunning))
             {
-                OnPropertyChanged(nameof(CountDownDisplay));
-                OnPropertyChanged(nameof(RoundStatusText));
-                OnPropertyChanged(nameof(ReadyCount));
+                RefreshTimerDisplay();
             }
-
-            // Handle button visibility based on ready countdown state
-            if (_timerService.IsInReadyCountdown)
-            {
-                // During ready countdown: hide ALL buttons
-                IsStopButtonVisible = IsStopButtonEnabled = false;
-                IsStartButtonVisible = IsStartButtonEnabled = false;
-                IsResetButtonVisible = IsResetButtonEnabled = false;
-                IsGearEnabled = false;
-            }
-            else
-            {
-                // Normal state: update button states based on running state
-                IsStopButtonVisible = IsStopButtonEnabled = _timerService.IsRunning;
-                IsStartButtonVisible = IsStartButtonEnabled = !_timerService.IsRunning;
-                IsResetButtonVisible = IsResetButtonEnabled = !_timerService.IsRunning;
-                IsGearEnabled = !_timerService.IsRunning;
-            }
-
+            UpdateButtonStateFromTimer();
         }
 
         private void OnReadyCountdownChanged(int count)
@@ -384,6 +367,32 @@ namespace BoxingClock.ViewModels
 
             // Force update of display
             RefreshTimerDisplay();
+        }
+
+        public void SyncTimerState()
+        {
+            RefreshTimerDisplay();
+            UpdateButtonStateFromTimer();
+            OnPropertyChanged(nameof(IsInReadyCountdown));
+        }
+
+        private void UpdateButtonStateFromTimer()
+        {
+            if (_timerService.IsInReadyCountdown)
+            {
+                // During ready countdown: hide ALL buttons
+                IsStopButtonVisible = IsStopButtonEnabled = false;
+                IsStartButtonVisible = IsStartButtonEnabled = false;
+                IsResetButtonVisible = IsResetButtonEnabled = false;
+                IsGearEnabled = false;
+                return;
+            }
+
+            // Normal state: update button states based on running state
+            IsStopButtonVisible = IsStopButtonEnabled = _timerService.IsRunning;
+            IsStartButtonVisible = IsStartButtonEnabled = !_timerService.IsRunning;
+            IsResetButtonVisible = IsResetButtonEnabled = !_timerService.IsRunning;
+            IsGearEnabled = !_timerService.IsRunning;
         }
 
         // INotifyPropertyChanged implementation

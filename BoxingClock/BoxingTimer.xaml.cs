@@ -1,4 +1,5 @@
 ﻿using BoxingClock.ViewModels;
+using BoxingClock.Services;
 using Microsoft.Maui.Controls;
 using Microsoft.Maui.Layouts;
 
@@ -245,7 +246,7 @@ namespace BoxingClock
                 }
 
                 // The tick label text is already bound to ReadyCount
-                //SoundManager.PlayTick();
+                SoundManager.PlayTick();
 
                 tick.Opacity = 1;
                 tick.FadeTo(0.10, 1000);

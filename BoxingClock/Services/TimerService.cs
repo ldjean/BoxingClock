@@ -86,7 +86,13 @@ namespace BoxingClock.Services
         public bool IsMuted
         {
             get => _isMuted;
-            set => SetProperty(ref _isMuted, value);
+            set
+            {
+                if (SetProperty(ref _isMuted, value))
+                {
+                    SoundManager.IsMuted = value;
+                }
+            }
         }
 
         // Events for ready countdown
@@ -164,7 +170,7 @@ namespace BoxingClock.Services
                     ReadyCountdownFinished?.Invoke();
                     IsRunning = true;
                     _timer.Start();
-                    //SoundManager.PlayBellStart();
+                    SoundManager.PlayBellStart();
                 });
                 return;
             }
@@ -194,7 +200,7 @@ namespace BoxingClock.Services
             // Run in background (you'll need to implement MAUI background service)
             // Start with initial status text
             string initialStatus = GetNotificationStatusText();
-            // BackgroundServiceHelper.StartBackgroundService(initialStatus);
+            BackgroundServiceHelper.StartBackgroundService(initialStatus);
 
             // Always start with the ready countdown
             StartReadyCountdown();
@@ -206,7 +212,7 @@ namespace BoxingClock.Services
             _timer.Stop();
 
             // Stop running in background
-            // BackgroundServiceHelper.StopBackgroundService();
+            BackgroundServiceHelper.StopBackgroundService();
         }
 
         public void Reset()
@@ -223,6 +229,7 @@ namespace BoxingClock.Services
         {
             ReadyCount--;
             ReadyCountdownChanged?.Invoke(ReadyCount);
+            MainThread.BeginInvokeOnMainThread(UpdateBackgroundNotification);
 
             if (ReadyCount <= 0)
             {
@@ -234,7 +241,8 @@ namespace BoxingClock.Services
                     // Start the main timer after ready countdown finishes
                     IsRunning = true;
                     _timer.Start();
-                    //SoundManager.PlayBellStart();
+                    SoundManager.PlayBellStart();
+                    UpdateBackgroundNotification();
                 });
             }
         }
@@ -244,15 +252,12 @@ namespace BoxingClock.Services
             CountDown--;
 
             // Update notification text - must be on UI thread
-            MainThread.BeginInvokeOnMainThread(() =>
-            {
-                UpdateBackgroundNotification();
-            });
+            MainThread.BeginInvokeOnMainThread(UpdateBackgroundNotification);
 
             // Play 10-second warning
             if (IsRoundTime && CountDown == 10)
             {
-                //SoundManager.PlayWarning10s();
+                SoundManager.PlayWarning10s();
             }
 
             // Handle interval notifications
@@ -261,7 +266,7 @@ namespace BoxingClock.Services
                 _intervals--;
                 if (_intervals == 0)
                 {
-                    //SoundManager.PlayTick();
+                    SoundManager.PlayTick();
                     _intervals = int.Parse(_settingsConfig.IntervalNotification);
                 }
             }
@@ -290,7 +295,7 @@ namespace BoxingClock.Services
                 {
                     Stop();
                     Reset();
-                    //SoundManager.PlayBellStart(); // Final bell
+                    SoundManager.PlayBellStart(); // Final bell
                     // You could show a message here: "Workout Complete!"
                 });
                 return;
@@ -305,7 +310,7 @@ namespace BoxingClock.Services
             TimeSpan breakTime = TimeSpan.ParseExact(_settingsConfig.BreakTime, @"m\:ss", CultureInfo.InvariantCulture);
             CountDown = (int)breakTime.TotalSeconds;
 
-            //SoundManager.PlayBellEnd();
+            SoundManager.PlayBellEnd();
             IsRoundTime = false;
 
             MainThread.BeginInvokeOnMainThread(() => UpdateBackgroundNotification());
@@ -318,7 +323,7 @@ namespace BoxingClock.Services
             IsRoundTime = true;
             CurrentRound++;
 
-            //SoundManager.PlayBellStart();
+            SoundManager.PlayBellStart();
 
             MainThread.BeginInvokeOnMainThread(() => UpdateBackgroundNotification());
         }
@@ -326,6 +331,11 @@ namespace BoxingClock.Services
         // Background service implementation
         private string GetNotificationStatusText()
         {
+            if (IsInReadyCountdown && ReadyCount >= 0)
+            {
+                return $"Ready : {ReadyCount}";
+            }
+
             int secondsRemaining = Math.Max(0, CountDown);
             string formattedTime = TimeSpan.FromSeconds(secondsRemaining).ToString("m\\:ss");
 
@@ -345,7 +355,7 @@ namespace BoxingClock.Services
         public void UpdateBackgroundNotification()
         {
             string statusText = GetNotificationStatusText();
-            // BackgroundServiceHelper.UpdateNotification(statusText);
+            BackgroundServiceHelper.UpdateNotification(statusText);
         }
 
         // INotifyPropertyChanged implementation

@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using BoxingClock.Services;
+using Microsoft.Extensions.Logging;
+using Plugin.Maui.Audio;
 
 
 namespace BoxingClock
@@ -17,9 +19,9 @@ namespace BoxingClock
                     fonts.AddFont("Michroma-Regular.ttf", "Michroma-Regular");
 
                 });
-
+            SoundManager.Initialize(AudioManager.Current);
 #if DEBUG
-    		builder.Logging.AddDebug();
+            builder.Logging.AddDebug();
 #endif
 
             return builder.Build();
