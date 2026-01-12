@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView x:Class="BoxingClock.Views.TimerSettingsPage"
+             xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             HorizontalOptions="FillAndExpand">
+
+    <Border BackgroundColor="Black"
+           Stroke="#af0f13" StrokeThickness="3"
+           Padding="5"
+           VerticalOptions="Fill"
+           HorizontalOptions="Fill">
+
+        <ScrollView>
+            <VerticalStackLayout Spacing="0" BackgroundColor="Black">
+                <!-- Header -->
+                <HorizontalStackLayout Padding="10" BackgroundColor="Black">
+                    <Label Text="boxing timer" 
+                           TextColor="#af0f13" 
+                           VerticalTextAlignment="Center" 
+                           FontSize="Medium"
+                           FontFamily="OpenSansRegular"
+                           HorizontalTextAlignment="Start" 
+                           FontAttributes="Bold"/>
+                </HorizontalStackLayout>
+
+                <!-- Divider -->
+                <BoxView HeightRequest="1" BackgroundColor="#af0f13" Margin="10,10,10,10"/>
+
+                <!-- Round Length - Use Grid for proper left/right alignment -->
+                <Grid Padding="5" BackgroundColor="Black" ColumnDefinitions="*,Auto">
+                    <Label Text="🥊 Round Length"
+                           Style="{StaticResource settingsLabel}"
+                           Grid.Column="0"/>
+                    <Border BackgroundColor="#d9af0f13"
+                            Stroke="#af0f13"
+                            Padding="10,5"
+                            Grid.Column="1"
+                            WidthRequest="50">
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnRoundTimeTapped" />
+                        </Border.GestureRecognizers>
+                        <Label Text="{Binding CurrentUISettings.RoundTime}" 
+                               TextColor="Black"
+                               FontAttributes="Bold"
+                               FontFamily="OpenSansRegular"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center"/>
+                    </Border>
+                </Grid>
+
+                <!-- Break Length -->
+                <Grid Padding="5" BackgroundColor="Black" ColumnDefinitions="*,Auto">
+                    <Label Text="💤 Break Length" 
+                           TextColor="#af0f13" 
+                           VerticalOptions="Center"
+                           Grid.Column="0"/>
+                    <Picker Margin="5" 
+                            TextColor="Black" 
+                            BackgroundColor="#d9af0f13"
+                            WidthRequest="60"
+                            HeightRequest="40"
+                            Grid.Column="1"
+                            ItemsSource="{Binding BreakTimes}" 
+                            SelectedItem="{Binding CurrentUISettings.BreakTime}"/>
+                </Grid>
+
+                <!-- Ready Time Length -->
+                <Grid Padding="5" BackgroundColor="Black" ColumnDefinitions="*,Auto">
+                    <Label Text="⏱️ Ready Time Length" 
+                           TextColor="#af0f13" 
+                           VerticalOptions="Center"
+                           Grid.Column="0"/>
+                    <Picker Margin="5" 
+                            TextColor="Black"
+                            Grid.Column="1"
+                            BackgroundColor="#d9af0f13"
+                            WidthRequest="60"
+                            HeightRequest="40"
+                            ItemsSource="{Binding ReadyTimes}"
+                            SelectedItem="{Binding CurrentUISettings.ReadyTime}"/>
+                </Grid>
+
+                <!-- Notice Interval -->
+                <Grid Padding="5" BackgroundColor="Black" ColumnDefinitions="*,Auto">
+                    <Label Text="🔔 Notice Interval" 
+                           TextColor="#af0f13" 
+                           VerticalOptions="Center"
+                           FontSize="Small"
+                           Grid.Column="0"/>
+                    <Picker Margin="5" 
+                            TextColor="Black" 
+                            BackgroundColor="#d9af0f13"
+                            WidthRequest="60"
+                            Grid.Column="1"
+                            HeightRequest="40"
+                            ItemsSource="{Binding Intervals}" 
+                            SelectedItem="{Binding CurrentUISettings.IntervalNotification}"/>
+                </Grid>
+
+                <!-- Rounds -->
+                <Grid Padding="5" BackgroundColor="Black" ColumnDefinitions="*,Auto">
+                    <Label Text="#️⃣ Rounds" 
+                           TextColor="#af0f13" 
+                           VerticalOptions="Center"
+                           Grid.Column="0"/>
+                    <Picker Margin="5" 
+                            TextColor="Black" 
+                            BackgroundColor="#d9af0f13"
+                            WidthRequest="60" 
+                            HeightRequest="40"
+                            Grid.Column="1"
+                            ItemsSource="{Binding RoundsOptions}" 
+                            SelectedItem="{Binding CurrentUISettings.NumberOfRounds}"/>
+                </Grid>
+
+                <!-- Mute Sounds -->
+                <Grid BackgroundColor="#d9af0f13" 
+                      Padding="15,10"
+                      Margin="10"
+                      ColumnDefinitions="*,Auto">
+                    <Label Text="🔇 Mute Sounds" 
+                           TextColor="Black" 
+                           VerticalOptions="Center"
+                           Grid.Column="0"/>
+                    <Switch Grid.Column="1"
+                            IsToggled="{Binding IsMuted}"
+                            OnColor="Black"
+                            ThumbColor="Black"/>
+                </Grid>
+
+                <!-- Divider -->
+                <BoxView HeightRequest="1" BackgroundColor="#af0f13" Margin="10,10,10,10"/>
+
+                <HorizontalStackLayout Padding="10" BackgroundColor="Black">
+                    <Label Text="add preset" 
+                            TextColor="#af0f13" 
+                            VerticalTextAlignment="Center" 
+                            FontSize="Medium"
+                            FontFamily="OpenSansRegular"
+                            HorizontalTextAlignment="Start" 
+                            FontAttributes="Italic"/>
+                </HorizontalStackLayout>
+
+                <!-- Divider -->
+                <BoxView HeightRequest="1" BackgroundColor="#af0f13" Margin="10,10,10,10"/>
+
+                <!-- Preset Name and Save -->
+                <Grid ColumnDefinitions="*, Auto" 
+                      Padding="5" 
+                      BackgroundColor="Black"
+                      ColumnSpacing="10">
+                    <Entry Placeholder="Enter a Name" 
+                           Grid.Column="0"
+                           Text="{Binding CurrentUISettings.PresetName}" 
+                           TextColor="#af0f13" 
+                           PlaceholderColor="#af0f13"/>
+                    <Button Grid.Column="1"
+                            Text="Save"
+                            BackgroundColor="#d9af0f13" 
+                            TextColor="Black" 
+                            Command="{Binding SavePresetCommand}"
+                            WidthRequest="60"/>
+                </Grid>
+
+                <!-- Empty space for spacing -->
+                <BoxView HeightRequest="20" BackgroundColor="Transparent"/>
+            </VerticalStackLayout>
+        </ScrollView>
+    </Border>
+</ContentView>

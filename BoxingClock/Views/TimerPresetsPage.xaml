@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="BoxingClock.Views.TimerPresetsPage">
+
+    <Border BackgroundColor="Black"
+            Stroke="#af0f13"
+            VerticalOptions="FillAndExpand"
+            HorizontalOptions="FillAndExpand"
+            Padding="0">
+
+        <CollectionView x:Name="presetCollectionView"
+                       ItemsSource="{Binding Presets}"
+                       BackgroundColor="Black"
+                       SelectionMode="Single"
+                       SelectionChanged="PresetItem_Selected">
+
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <SwipeView>
+                        <SwipeView.RightItems>
+                            <SwipeItem Text="Delete"
+                                     BackgroundColor="Red"
+                                     Command="{Binding Source={RelativeSource AncestorType={x:Type ContentView}}, Path=BindingContext.DeletePresetCommand}"
+                                     CommandParameter="{Binding .}"
+                                     IsDestructive="True"/>
+                        </SwipeView.RightItems>
+
+                        <!-- Preset Item Content -->
+                        <Frame BorderColor="#af0f13" 
+                               BackgroundColor="#20000000" 
+                               Padding="10" 
+                               Margin="5"
+                               CornerRadius="0" 
+                               HasShadow="False">
+
+                            <Grid ColumnSpacing="10">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <!-- Preset Info -->
+                                <StackLayout Grid.Column="0" Spacing="5">
+                                    <Label Text="{Binding PresetName}" 
+                                           TextColor="#af0f13" 
+                                           FontAttributes="Bold" 
+                                           FontSize="Small"/>
+
+                                    <StackLayout Orientation="Horizontal" Spacing="15">
+                                        <StackLayout Orientation="Horizontal" Spacing="5">
+                                            <Label Text="🥊 " TextColor="White" FontSize="12"/>
+                                            <Label Text="{Binding RoundTime}" 
+                                                   TextColor="White" FontSize="12"/>
+                                        </StackLayout>
+                                        <StackLayout Orientation="Horizontal" Spacing="5">
+                                            <Label Text="💤 " TextColor="White" FontSize="12"/>
+                                            <Label Text="{Binding BreakTime}" 
+                                                   TextColor="White" FontSize="12"/>
+                                        </StackLayout>
+                                        <StackLayout Orientation="Horizontal">
+                                            <Label Text="#️⃣ " TextColor="White" FontSize="12"/>
+                                            <Label Text="{Binding NumberOfRounds}" 
+                                                   TextColor="White" FontSize="12"/>
+                                        </StackLayout>
+                                    </StackLayout>
+
+                                    <StackLayout Orientation="Horizontal" Spacing="15">
+                                        <StackLayout Orientation="Horizontal">
+                                            <Label Text="⏱️ " TextColor="White" FontSize="12"/>
+                                            <Label Text="{Binding ReadyTime}" 
+                                                   TextColor="White" FontSize="12"/>
+                                        </StackLayout>
+                                        <StackLayout Orientation="Horizontal">
+                                            <Label Text="🔔 " TextColor="White" FontSize="12"/>
+                                            <Label Text="{Binding IntervalNotification}" 
+                                                   TextColor="White" FontSize="12"/>
+                                        </StackLayout>
+                                    </StackLayout>
+                                </StackLayout>
+
+                                <!-- Delete Button (visible alternative) -->
+                                <Button Grid.Column="1" 
+                                        BorderColor="#af0f13"
+                                        Text="❌" 
+                                        TextColor="#af0f13" 
+                                        BackgroundColor="Transparent" 
+                                        VerticalOptions="Center" 
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type ContentView}}, Path=BindingContext.DeletePresetCommand}"
+                                        CommandParameter="{Binding .}"
+                                        WidthRequest="40" 
+                                        HeightRequest="40"/>
+                            </Grid>
+                        </Frame>
+                    </SwipeView>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </Border>
+</ContentView>

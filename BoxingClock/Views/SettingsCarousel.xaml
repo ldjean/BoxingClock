@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:views="clr-namespace:BoxingClock.Views"
+             x:Class="BoxingClock.Views.SettingsCarousel">
+    <Grid RowDefinitions="Auto,*,Auto" 
+      Padding="25,50,25,50" BackgroundColor="#C0000000">
+
+        <!-- Page Header with Title and Indicator -->
+        <StackLayout Grid.Row="0" Spacing="10">
+            <Label Text="{Binding CurrentPage.Title}" 
+               TextColor="#af0f13" 
+               FontSize="20" 
+               FontAttributes="Bold" 
+               HorizontalOptions="Center"/>
+
+            <IndicatorView x:Name="pageIndicator"
+                      IndicatorColor="LightGray"
+                      SelectedIndicatorColor="#af0f13"
+                      HorizontalOptions="Center"/>
+        </StackLayout>
+
+        <!-- Carousel View for Pages -->
+        <CarouselView Grid.Row="1"
+                    x:Name="overlayCarouselView"
+                    ItemsSource="{Binding Pages}"
+                    CurrentItem="{Binding CurrentPage}"
+                    IndicatorView="pageIndicator"
+                    Loop="False"
+                    PeekAreaInsets="10">
+
+            <CarouselView.ItemTemplate>
+                <DataTemplate>
+                    <ContentView Content="{Binding PageContent}"/>
+                </DataTemplate>
+            </CarouselView.ItemTemplate>
+        </CarouselView>
+
+        <!-- Exit Button -->
+        <Button Grid.Row="2"
+            Style="{DynamicResource ActionButton}"
+            Text="Exit"
+            Command="{Binding ExitOverlayCommand}"
+            HorizontalOptions="End"
+            VerticalOptions="End"/>
+    </Grid>
+</ContentView>

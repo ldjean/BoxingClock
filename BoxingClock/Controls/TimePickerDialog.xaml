@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="BoxingClock.Controls.TimePickerDialog"
+             BackgroundColor="#80000000"
+             Padding="20">
+    <Border BackgroundColor="Black" 
+           Stroke="#af0f13" 
+           StrokeThickness="2"
+           Padding="20"
+           HorizontalOptions="Center"
+           VerticalOptions="Center"
+           WidthRequest="300">
+        <VerticalStackLayout Spacing="15">
+            <!-- Title -->
+            <Label Text="Select Time" 
+                   TextColor="#af0f13" 
+                   FontSize="18" 
+                   FontAttributes="Bold"
+                   HorizontalOptions="Center" />
+
+            <!-- Time Display -->
+            <Label x:Name="timeDisplay" 
+                   Text="3:00" 
+                   TextColor="#af0f13" 
+                   FontSize="24"
+                   FontAttributes="Bold"
+                   HorizontalOptions="Center" />
+
+            <!-- Picker Controls -->
+            <Grid ColumnSpacing="10" HorizontalOptions="Center">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <!-- Minutes Picker -->
+                <VerticalStackLayout Grid.Column="0" HorizontalOptions="Center">
+                    <Label Text="Minutes" TextColor="#af0f13" FontSize="12" HorizontalOptions="Center" />
+                    <Picker x:Name="minutePicker"
+                            TextColor="Black"
+                            BackgroundColor="#d9af0f13"
+                            WidthRequest="80"
+                            HorizontalOptions="Center" />
+                </VerticalStackLayout>
+
+                <!-- Separator -->
+                <Label Grid.Column="1" 
+                       Text=":" 
+                       TextColor="#af0f13" 
+                       FontSize="24"
+                       VerticalOptions="Center" />
+
+                <!-- Seconds Picker -->
+                <VerticalStackLayout Grid.Column="2" HorizontalOptions="Center">
+                    <Label Text="Seconds" TextColor="#af0f13" FontSize="12" HorizontalOptions="Center" />
+                    <Picker x:Name="secondPicker"
+                            TextColor="Black"
+                            BackgroundColor="#d9af0f13"
+                            WidthRequest="80"
+                            HorizontalOptions="Center" />
+                </VerticalStackLayout>
+            </Grid>
+
+            <!-- Buttons -->
+            <HorizontalStackLayout Spacing="15"
+                         HorizontalOptions="Center">
+                <Button Text="Cancel" 
+                        Clicked="OnCancelClicked"
+                        BackgroundColor="#333333"
+                        TextColor="White"
+                        WidthRequest="80" />
+                <Button Text="OK" 
+                        Clicked="OnOkClicked"
+                        BackgroundColor="#d9af0f13"
+                        TextColor="Black"
+                        WidthRequest="80" />
+            </HorizontalStackLayout>
+        </VerticalStackLayout>
+    </Border>
+</ContentView>
