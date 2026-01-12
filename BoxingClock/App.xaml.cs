@@ -146,8 +146,8 @@ namespace BoxingClock
         protected override void OnResume()
         {
             base.OnResume();
-            // Reload settings when returning
-            _ = LoadSettingsAsync();
+            // Keep the current timer state when resuming
+            MainViewModel?.SyncTimerState();
         }
     }
 }

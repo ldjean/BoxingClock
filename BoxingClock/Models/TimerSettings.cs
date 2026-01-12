@@ -80,7 +80,10 @@ namespace BoxingClock.Models
                     return null;
 
                 var json = await File.ReadAllTextAsync(filePath);
-                var settings = JsonSerializer.Deserialize<TimerSettings>(json);
+                var settings = JsonSerializer.Deserialize<TimerSettings>(json, new JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = true
+                });
 
                 // Restore current timer from index if needed
                 if (settings != null &&

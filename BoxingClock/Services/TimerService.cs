@@ -194,7 +194,7 @@ namespace BoxingClock.Services
             // Run in background (you'll need to implement MAUI background service)
             // Start with initial status text
             string initialStatus = GetNotificationStatusText();
-            // BackgroundServiceHelper.StartBackgroundService(initialStatus);
+            BackgroundServiceHelper.StartBackgroundService(initialStatus);
 
             // Always start with the ready countdown
             StartReadyCountdown();
@@ -206,7 +206,7 @@ namespace BoxingClock.Services
             _timer.Stop();
 
             // Stop running in background
-            // BackgroundServiceHelper.StopBackgroundService();
+            BackgroundServiceHelper.StopBackgroundService();
         }
 
         public void Reset()
@@ -223,6 +223,7 @@ namespace BoxingClock.Services
         {
             ReadyCount--;
             ReadyCountdownChanged?.Invoke(ReadyCount);
+            MainThread.BeginInvokeOnMainThread(UpdateBackgroundNotification);
 
             if (ReadyCount <= 0)
             {
@@ -235,6 +236,7 @@ namespace BoxingClock.Services
                     IsRunning = true;
                     _timer.Start();
                     //SoundManager.PlayBellStart();
+                    UpdateBackgroundNotification();
                 });
             }
         }
@@ -244,10 +246,7 @@ namespace BoxingClock.Services
             CountDown--;
 
             // Update notification text - must be on UI thread
-            MainThread.BeginInvokeOnMainThread(() =>
-            {
-                UpdateBackgroundNotification();
-            });
+            MainThread.BeginInvokeOnMainThread(UpdateBackgroundNotification);
 
             // Play 10-second warning
             if (IsRoundTime && CountDown == 10)
@@ -326,6 +325,11 @@ namespace BoxingClock.Services
         // Background service implementation
         private string GetNotificationStatusText()
         {
+            if (IsInReadyCountdown && ReadyCount >= 0)
+            {
+                return $"Ready : {ReadyCount}";
+            }
+
             int secondsRemaining = Math.Max(0, CountDown);
             string formattedTime = TimeSpan.FromSeconds(secondsRemaining).ToString("m\\:ss");
 
@@ -345,7 +349,7 @@ namespace BoxingClock.Services
         public void UpdateBackgroundNotification()
         {
             string statusText = GetNotificationStatusText();
-            // BackgroundServiceHelper.UpdateNotification(statusText);
+            BackgroundServiceHelper.UpdateNotification(statusText);
         }
 
         // INotifyPropertyChanged implementation
