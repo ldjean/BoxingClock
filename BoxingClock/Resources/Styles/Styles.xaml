@@ -17,12 +17,12 @@
         <Setter Property="BorderColor" Value="{DynamicResource PrimaryRed}"/>
         <Setter Property="CornerRadius" Value="12"/>
         <Setter Property="Margin" Value="10"/>
-        <Setter Property="FontSize" Value="8"/>
+        <Setter Property="FontSize" Value="12"/>
         <Setter Property="FontAttributes" Value="None"/>
         <Setter Property="HeightRequest" Value="55"/>
         <Setter Property="WidthRequest" Value="70"/>
         <Setter Property="FontAttributes" Value="Bold"/>
-        <Setter Property="FontFamily" Value="Michroma-Regular"/>
+        <Setter Property="FontFamily" Value="OpenSansRegular"/>
     </Style>
 
     <Style x:Key="settingsLabel" TargetType="Label">
@@ -191,7 +191,7 @@
     <Style TargetType="Label">
         <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}" />
         <Setter Property="BackgroundColor" Value="Transparent" />
-        <Setter Property="FontFamily" Value="Michroma-Regular" />
+        <Setter Property="FontFamily" Value="OpenSansRegular" />
         <Setter Property="FontSize" Value="14" />
         <Setter Property="VisualStateManager.VisualStateGroups">
             <VisualStateGroupList>

@@ -2,11 +2,11 @@
 using Android.Content;
 using Android.Content.PM;
 using Android.OS;
+using Android.Widget;
 using AndroidX.Core.App;
 
 namespace BoxingClock.Platforms.Android
 {
-    [Service(Exported = false, ForegroundServiceType = ForegroundService.TypeDataSync)]
     public class TimerForegroundService : Service
     {
         public const string ActionStart = "BoxingClock.Action.START_TIMER";
@@ -78,14 +78,17 @@ namespace BoxingClock.Platforms.Android
                 launchIntent,
                 PendingIntentFlags.UpdateCurrent | PendingIntentFlags.Immutable);
 
+            
+
             return new NotificationCompat.Builder(this, ChannelId)
                 .SetContentTitle("Boxing Timer")
                 .SetContentText(statusText)
-                .SetSmallIcon(Resource.Mipmap.appicon)
+                .SetSmallIcon(Resource.Drawable.bsb1)
                 .SetContentIntent(pendingIntent)
                 .SetOngoing(true)
                 .SetOnlyAlertOnce(true)
                 .Build();
+
         }
     }
 }

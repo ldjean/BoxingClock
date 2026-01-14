@@ -1,5 +1,6 @@
 ﻿using BoxingClock.ViewModels;
 using BoxingClock.Services;
+using Microsoft.Maui.ApplicationModel;
 using Microsoft.Maui.Controls;
 using Microsoft.Maui.Layouts;
 
@@ -8,6 +9,7 @@ namespace BoxingClock
     public partial class BoxingTimer : ContentPage
     {
         private BoxingTimerVM ViewModel => (BoxingTimerVM)BindingContext;
+        private bool _notificationPermissionChecked;
 
         public BoxingTimer()
         {
@@ -28,6 +30,7 @@ namespace BoxingClock
         protected override async void OnAppearing()
         {
             base.OnAppearing();
+            await EnsureNotificationPermissionAsync();
 
             // Initial fade-in animation
             foreach (View view in pagelayout.Children)
@@ -45,6 +48,8 @@ namespace BoxingClock
                     await Task.WhenAny(view.FadeTo(1, 1000, Easing.CubicInOut), Task.Delay(100));
                 }
             }
+
+            UpdateGearVisualState();
         }
 
         protected override void OnDisappearing()
@@ -82,6 +87,27 @@ namespace BoxingClock
                     // The binding should handle this, but we can add custom logic here if needed
                 }
             });
+        }
+
+        private async Task EnsureNotificationPermissionAsync()
+        {
+            if (_notificationPermissionChecked)
+            {
+                return;
+            }
+
+            _notificationPermissionChecked = true;
+
+            if (!OperatingSystem.IsAndroidVersionAtLeast(33))
+            {
+                return;
+            }
+
+            var status = await Permissions.CheckStatusAsync<Permissions.PostNotifications>();
+            if (status != PermissionStatus.Granted)
+            {
+                await Permissions.RequestAsync<Permissions.PostNotifications>();
+            }
         }
 
         private void Handle_SizeChanged(object sender, EventArgs e)
@@ -127,6 +153,7 @@ namespace BoxingClock
                     // For timerButtons: Let ViewModel control visibility, ensure it's enabled
                     if (view == timerButtons)
                     {
+                        view.IsVisible = !isInReadyCountdown;
                         view.Opacity = 1;
                         view.IsEnabled = true; // Always enabled in portrait
                         continue;
@@ -135,7 +162,7 @@ namespace BoxingClock
                     // For gear: Restore ViewModel's enabled state
                     if (view == gear)
                     {
-                        view.Opacity = 0.5;
+                        view.Opacity = ViewModel.IsGearEnabled ? 1 : 0.5;
                         continue;
                     }
 
@@ -160,6 +187,8 @@ namespace BoxingClock
                     view.Opacity = 1;
                     view.IsEnabled = true;
                 }
+
+                UpdateGearVisualState();
             }
             // landscape
             else
@@ -202,6 +231,7 @@ namespace BoxingClock
                     // For timerButtons: Hide AND disable in landscape
                     if (view == timerButtons)
                     {
+                        view.IsVisible = !isInReadyCountdown;
                         view.Opacity = 0;
                         view.IsEnabled = false; // Important: Disable to prevent taps
                         continue;
@@ -229,6 +259,19 @@ namespace BoxingClock
                 }
             }
         }
+
+        private void UpdateGearVisualState()
+        {
+            if (App.TimerService.IsRunning || App.TimerService.IsInReadyCountdown)
+            {
+                ShrinkGear();
+            }
+            else
+            {
+                ResetGear();
+            }
+        }
+
 
         // Animation methods for ready countdown
         private async void OnReadyCountdownChanged(int count)
@@ -275,7 +318,7 @@ namespace BoxingClock
         async void TapGestureRecognizer_Tapped(object sender, EventArgs e)
         {
             await gear.ScaleTo(.8, 100);
-            await gear.ScaleTo(1, 30);
+            gear.ScaleTo(1, 30);
 
             // Toggle overlay visibility through ViewModel
             ViewModel.IsOverlayVisible = !ViewModel.IsOverlayVisible;

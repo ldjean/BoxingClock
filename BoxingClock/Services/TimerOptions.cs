@@ -64,7 +64,7 @@ namespace BoxingClock.Services
                 }
                 else
                 {
-                    times.Add(timeSpan.ToString(@"%s") + "s");
+                    times.Add(timeSpan.ToString(@"m\:ss"));
                 }
             }
 

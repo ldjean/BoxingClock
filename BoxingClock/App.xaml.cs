@@ -20,6 +20,7 @@ namespace BoxingClock
             // Initialize services
             TimerService = new TimerService();
             TimerSettings = new TimerSettings();
+            TimerService.Configure(TimerSettings.CurrentTimer);
 
             // Add debug output
             var filePath = Path.Combine(FileSystem.AppDataDirectory, "timersettings.json");

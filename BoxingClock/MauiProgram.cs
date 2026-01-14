@@ -1,6 +1,8 @@
 ﻿using BoxingClock.Services;
+using CommunityToolkit.Maui;
 using Microsoft.Extensions.Logging;
 using Plugin.Maui.Audio;
+using Plugin.MauiMTAdmob;
 
 
 namespace BoxingClock
@@ -12,6 +14,8 @@ namespace BoxingClock
             var builder = MauiApp.CreateBuilder();
             builder
                 .UseMauiApp<App>()
+                .UseMauiCommunityToolkit()
+                .UseMauiMTAdmob()
                 .ConfigureFonts(fonts =>
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");

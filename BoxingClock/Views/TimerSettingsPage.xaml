@@ -33,15 +33,15 @@
                            Grid.Column="0"/>
                     <Border BackgroundColor="#d9af0f13"
                             Stroke="#af0f13"
-                            Padding="10,5"
+                            Margin="5"
                             Grid.Column="1"
-                            WidthRequest="50">
+                            WidthRequest="60" 
+                            HeightRequest="40">
                         <Border.GestureRecognizers>
                             <TapGestureRecognizer Tapped="OnRoundTimeTapped" />
                         </Border.GestureRecognizers>
                         <Label Text="{Binding CurrentUISettings.RoundTime}" 
                                TextColor="Black"
-                               FontAttributes="Bold"
                                FontFamily="OpenSansRegular"
                                HorizontalOptions="Center"
                                VerticalOptions="Center"/>
@@ -51,8 +51,7 @@
                 <!-- Break Length -->
                 <Grid Padding="5" BackgroundColor="Black" ColumnDefinitions="*,Auto">
                     <Label Text="💤 Break Length" 
-                           TextColor="#af0f13" 
-                           VerticalOptions="Center"
+                           Style="{StaticResource settingsLabel}"
                            Grid.Column="0"/>
                     <Picker Margin="5" 
                             TextColor="Black" 
@@ -61,14 +60,13 @@
                             HeightRequest="40"
                             Grid.Column="1"
                             ItemsSource="{Binding BreakTimes}" 
-                            SelectedItem="{Binding CurrentUISettings.BreakTime}"/>
+                            SelectedItem="{Binding CurrentUISettings.BreakTime}" Title="Break Timer Length" FlowDirection="RightToLeft"  HorizontalTextAlignment="Center"/>
                 </Grid>
 
                 <!-- Ready Time Length -->
                 <Grid Padding="5" BackgroundColor="Black" ColumnDefinitions="*,Auto">
                     <Label Text="⏱️ Ready Time Length" 
-                           TextColor="#af0f13" 
-                           VerticalOptions="Center"
+                           Style="{StaticResource settingsLabel}"
                            Grid.Column="0"/>
                     <Picker Margin="5" 
                             TextColor="Black"
@@ -77,15 +75,13 @@
                             WidthRequest="60"
                             HeightRequest="40"
                             ItemsSource="{Binding ReadyTimes}"
-                            SelectedItem="{Binding CurrentUISettings.ReadyTime}"/>
+                            SelectedItem="{Binding CurrentUISettings.ReadyTime}" Title="Ready Countdown Timer" FlowDirection="RightToLeft"  HorizontalTextAlignment="Center"/>
                 </Grid>
 
                 <!-- Notice Interval -->
                 <Grid Padding="5" BackgroundColor="Black" ColumnDefinitions="*,Auto">
                     <Label Text="🔔 Notice Interval" 
-                           TextColor="#af0f13" 
-                           VerticalOptions="Center"
-                           FontSize="Small"
+                           Style="{StaticResource settingsLabel}"
                            Grid.Column="0"/>
                     <Picker Margin="5" 
                             TextColor="Black" 
@@ -94,14 +90,13 @@
                             Grid.Column="1"
                             HeightRequest="40"
                             ItemsSource="{Binding Intervals}" 
-                            SelectedItem="{Binding CurrentUISettings.IntervalNotification}"/>
+                            SelectedItem="{Binding CurrentUISettings.IntervalNotification}" Title="Notice Interval" FlowDirection="RightToLeft"  HorizontalTextAlignment="Center"/>
                 </Grid>
 
                 <!-- Rounds -->
                 <Grid Padding="5" BackgroundColor="Black" ColumnDefinitions="*,Auto">
                     <Label Text="#️⃣ Rounds" 
-                           TextColor="#af0f13" 
-                           VerticalOptions="Center"
+                           Style="{StaticResource settingsLabel}"
                            Grid.Column="0"/>
                     <Picker Margin="5" 
                             TextColor="Black" 
@@ -110,7 +105,7 @@
                             HeightRequest="40"
                             Grid.Column="1"
                             ItemsSource="{Binding RoundsOptions}" 
-                            SelectedItem="{Binding CurrentUISettings.NumberOfRounds}"/>
+                            SelectedItem="{Binding CurrentUISettings.NumberOfRounds}" Title="Number Of Rounds" FlowDirection="RightToLeft" HorizontalTextAlignment="Center"/>
                 </Grid>
 
                 <!-- Mute Sounds -->
@@ -119,8 +114,8 @@
                       Margin="10"
                       ColumnDefinitions="*,Auto">
                     <Label Text="🔇 Mute Sounds" 
-                           TextColor="Black" 
-                           VerticalOptions="Center"
+                           TextColor="Black" FontAttributes="Bold"
+                           Style="{StaticResource settingsLabel}"
                            Grid.Column="0"/>
                     <Switch Grid.Column="1"
                             IsToggled="{Binding IsMuted}"
@@ -133,12 +128,12 @@
 
                 <HorizontalStackLayout Padding="10" BackgroundColor="Black">
                     <Label Text="add preset" 
-                            TextColor="#af0f13" 
-                            VerticalTextAlignment="Center" 
-                            FontSize="Medium"
-                            FontFamily="OpenSansRegular"
-                            HorizontalTextAlignment="Start" 
-                            FontAttributes="Italic"/>
+                           TextColor="#af0f13" 
+                           VerticalTextAlignment="Center" 
+                           FontSize="Medium"
+                           FontFamily="OpenSansRegular"
+                           HorizontalTextAlignment="Start" 
+                           FontAttributes="Bold"/>
                 </HorizontalStackLayout>
 
                 <!-- Divider -->
@@ -151,15 +146,16 @@
                       ColumnSpacing="10">
                     <Entry Placeholder="Enter a Name" 
                            Grid.Column="0"
-                           Text="{Binding CurrentUISettings.PresetName}" 
-                           TextColor="#af0f13" 
+                           Text="{Binding PresetNameEntry}" 
+                           TextColor="#af0f13" VerticalTextAlignment="End"
                            PlaceholderColor="#af0f13"/>
                     <Button Grid.Column="1"
                             Text="Save"
-                            BackgroundColor="#d9af0f13" 
-                            TextColor="Black" 
+                            HeightRequest="40"
+                            WidthRequest="60"
+                            Style="{DynamicResource ActionButton}" 
                             Command="{Binding SavePresetCommand}"
-                            WidthRequest="60"/>
+                            IsEnabled="{Binding IsSavePresetEnabled}"/>
                 </Grid>
 
                 <!-- Empty space for spacing -->

@@ -1,11 +1,13 @@
-﻿using System;
+﻿using BoxingClock.Models;
+using BoxingClock.Services;
+using CommunityToolkit.Maui.Alerts;
+using CommunityToolkit.Maui.Core;
+using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
-using BoxingClock.Models;
-using BoxingClock.Services;
 
 namespace BoxingClock.ViewModels
 {
@@ -136,6 +138,25 @@ namespace BoxingClock.ViewModels
             set => SetProperty(ref _currentPage, value);
         }
 
+        private string _presetNameEntry = string.Empty;
+        public string PresetNameEntry
+        {
+            get => _presetNameEntry;
+            set
+            {
+                if (SetProperty(ref _presetNameEntry, value))
+                {
+                    UpdateSavePresetState();
+                }
+            }
+        }
+
+        private bool _isSavePresetEnabled;
+        public bool IsSavePresetEnabled
+        {
+            get => _isSavePresetEnabled;
+            set => SetProperty(ref _isSavePresetEnabled, value);
+        }
         // Commands
         public ICommand StartCommand { get; }
         public ICommand StopCommand { get; }
@@ -203,6 +224,7 @@ namespace BoxingClock.ViewModels
         private void ExecuteStop()
         {
             _timerService.Stop();
+            IsGearEnabled = true;
         }
 
         private void ExecuteReset()
@@ -211,17 +233,24 @@ namespace BoxingClock.ViewModels
             UpdateUISettingsFromCurrent();
         }
 
-        private void ExecuteSavePreset()
+        private async void ExecuteSavePreset()
         {
-            if (_timerSettings.TimerPresets.Any(x => x.PresetName.ToLower().Equals(CurrentUISettings.PresetName.ToLower())))
+            var presetName = PresetNameEntry?.Trim();
+            if (string.IsNullOrWhiteSpace(presetName))
+            {
+                return;
+            }
+
+            if (_timerSettings.TimerPresets.Any(x => x.PresetName.Equals(presetName, StringComparison.OrdinalIgnoreCase)))
             {
                 // Show alert - you'll need to handle this via a service
-                // Application.Current.MainPage.DisplayAlert("Can't Save", "That name already exists", "ok");
+                await Toast.Make("Preset with that name already exists", ToastDuration.Short).Show();
                 return;
             }
 
             // Add a new preset
             var newPreset = CurrentUISettings.Clone();
+            newPreset.PresetName = presetName;
             _timerSettings.TimerPresets.Add(newPreset);
 
             // Sort the collection
@@ -231,9 +260,10 @@ namespace BoxingClock.ViewModels
             foreach (var item in sorted) _timerSettings.TimerPresets.Add(item);
 
             // Clear preset name
-            CurrentUISettings.PresetName = string.Empty;
+            PresetNameEntry = string.Empty;
 
             _ = App.SaveSettingsAsync();
+
         }
 
         private void ExecuteDeletePreset(TimerConfig preset)
@@ -334,6 +364,11 @@ namespace BoxingClock.ViewModels
         public void UpdateCurrentFromUISettings()
         {
             _timerSettings.CurrentTimer = CurrentUISettings.Clone();
+        }
+
+        private void UpdateSavePresetState()
+        {
+            IsSavePresetEnabled = !string.IsNullOrWhiteSpace(PresetNameEntry);
         }
 
         // Event handlers

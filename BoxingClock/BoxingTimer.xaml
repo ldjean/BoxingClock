@@ -2,6 +2,7 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:views="clr-namespace:BoxingClock.Views"
+             xmlns:admob="clr-namespace:Plugin.MauiMTAdmob.Controls;assembly=Plugin.MauiMtAdmob"
              x:Class="BoxingClock.BoxingTimer">
 
     <Grid x:Name="pagelayout" 
@@ -10,10 +11,14 @@
           SizeChanged="Handle_SizeChanged">
         
         <!--ad space-->
-        <ContentView Grid.Row="0" Grid.ColumnSpan="3" HeightRequest="50"
-                 x:Name="adBanner" BackgroundColor="Gray">
-            
-        </ContentView>
+        <admob:MTAdView 
+                   Grid.Row="0"
+                   Grid.ColumnSpan="3"
+                   HeightRequest="50"
+                   HorizontalOptions="Fill"
+                   VerticalOptions="End"
+                   IsVisible="True"
+                   AdsId="ca-app-pub-7407205244448242/7234629129"/>
 
 
             <!--timer in ring layout-->
@@ -92,7 +97,7 @@
                         <Shadow Brush="{DynamicResource GlowRed}"  
                                 Offset="0,0" 
                                 Radius="10" 
-                                Opacity="0.7"/>
+                                Opacity="0.6"/>
                     </Label.Shadow> 
                 </Label>
                 <Label x:Name="timerDisplay" TextColor="{DynamicResource PrimaryRed}"

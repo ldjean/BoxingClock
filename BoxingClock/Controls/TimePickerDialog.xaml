@@ -42,7 +42,7 @@
                             TextColor="Black"
                             BackgroundColor="#d9af0f13"
                             WidthRequest="80"
-                            HorizontalOptions="Center" />
+                            HorizontalOptions="Center" Title="Minutes" FlowDirection="RightToLeft" HorizontalTextAlignment="Center" />
                 </VerticalStackLayout>
 
                 <!-- Separator -->
@@ -59,23 +59,24 @@
                             TextColor="Black"
                             BackgroundColor="#d9af0f13"
                             WidthRequest="80"
-                            HorizontalOptions="Center" />
+                            HorizontalOptions="Center"  Title="Seconds" FlowDirection="RightToLeft" HorizontalTextAlignment="Center" />
                 </VerticalStackLayout>
             </Grid>
 
             <!-- Buttons -->
             <HorizontalStackLayout Spacing="15"
                          HorizontalOptions="Center">
-                <Button Text="Cancel" 
-                        Clicked="OnCancelClicked"
-                        BackgroundColor="#333333"
-                        TextColor="White"
-                        WidthRequest="80" />
                 <Button Text="OK" 
                         Clicked="OnOkClicked"
                         BackgroundColor="#d9af0f13"
                         TextColor="Black"
                         WidthRequest="80" />
+                <Button Text="Cancel" 
+                        Clicked="OnCancelClicked"
+                        BackgroundColor="#333333"
+                        TextColor="White"
+                        WidthRequest="80" />
+                
             </HorizontalStackLayout>
         </VerticalStackLayout>
     </Border>
