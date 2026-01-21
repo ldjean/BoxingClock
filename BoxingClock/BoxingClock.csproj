@@ -24,7 +24,7 @@
 		<ApplicationTitle>BoxingClock</ApplicationTitle>
 
 		<!-- App Identifier -->
-		<ApplicationId>com.bsb.boxingclock</ApplicationId>
+		<ApplicationId>com.bsb.BoxingClock</ApplicationId>
 
 		<!-- Versions -->
 		<ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
@@ -48,12 +48,10 @@
 	  <EmbedAssembliesIntoApk>True</EmbedAssembliesIntoApk>
 	</PropertyGroup>
 
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net9.0-android|AnyCPU'">
-	  <EmbedAssembliesIntoApk>True</EmbedAssembliesIntoApk>
-	</PropertyGroup>
-
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net9.0-android|AnyCPU'">
 	  <AndroidLinkTool>r8</AndroidLinkTool>
+	  <DebugSymbols>True</DebugSymbols>
+	  <RunAOTCompilation>True</RunAOTCompilation>
 	</PropertyGroup>
 
 	<ItemGroup>

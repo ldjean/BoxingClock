@@ -322,16 +322,6 @@ namespace BoxingClock
 
             // Toggle overlay visibility through ViewModel
             ViewModel.IsOverlayVisible = !ViewModel.IsOverlayVisible;
-
-            //if (ViewModel.IsOverlayVisible)
-            //{
-            //    //countLayout.IsVisible = false;
-            //    // The overlay will show settings by default (as per ViewModel)
-            //}
-            //else
-            //{
-            //    countLayout.IsVisible = true;
-            //}
         }
 
         private async void BSBtapped(object sender, EventArgs e)
