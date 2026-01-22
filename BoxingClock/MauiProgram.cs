@@ -20,7 +20,8 @@ namespace BoxingClock
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
-                    fonts.AddFont("Michroma-Regular.ttf", "Michroma-Regular");
+                    fonts.AddFont("Michroma-Regular.ttf", "MichromaRegular");
+
 
                 });
             SoundManager.Initialize(AudioManager.Current);

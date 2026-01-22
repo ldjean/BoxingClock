@@ -7,6 +7,8 @@ using AndroidX.Core.App;
 
 namespace BoxingClock.Platforms.Android
 {
+    [Service(Exported = false, ForegroundServiceType = ForegroundService.TypeSpecialUse)]
+    [IntentFilter(new[] { ActionStart, ActionUpdate, ActionStop })]
     public class TimerForegroundService : Service
     {
         public const string ActionStart = "BoxingClock.Action.START_TIMER";
@@ -83,7 +85,7 @@ namespace BoxingClock.Platforms.Android
             return new NotificationCompat.Builder(this, ChannelId)
                 .SetContentTitle("Boxing Timer")
                 .SetContentText(statusText)
-                .SetSmallIcon(Resource.Drawable.bsb1)
+                .SetSmallIcon(CommunityToolkit.Maui.Resource.Drawable.bsb1)
                 .SetContentIntent(pendingIntent)
                 .SetOngoing(true)
                 .SetOnlyAlertOnce(true)

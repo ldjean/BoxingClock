@@ -2,12 +2,18 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.bsb.BoxingClock" android:versionCode="16" android:versionName="1.131.0">
 	<application android:allowBackup="true" android:icon="@mipmap/bsbicon" android:supportsRtl="true" android:label="BSB+ Boxing Timer">
 		<meta-data android:name="com.google.android.gms.ads.APPLICATION_ID" android:value="ca-app-pub-7407205244448242~6497899008" />
+		<service android:name="BoxingCount" android:foregroundServiceType="specialUse" android:exported="false">
+			  <property android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE"
+				  android:value="Keeps timer and break count, while also keeping track of the amount of boxing/HIIT rounds that are completed. Total round count increments and accumulates through workout by round timer. Timed bells and notification sounds run on round end and start, break end or start. Interval sound runs to keep track of time audibly"/>
+		</service>
 	</application>
 	<uses-permission android:name="android.permission.INTERNET" />
 	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 	<uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+	<uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE" />
 	<uses-permission android:name="android.permission.WAKE_LOCK" />
 	<uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" android:maxSdkVersion="28" />
 	<uses-permission android:name="com.google.android.gms.permission.AD_ID" />
+	
 </manifest>
