@@ -333,7 +333,7 @@ namespace BoxingClock.Services
         {
             if (IsInReadyCountdown && ReadyCount >= 0)
             {
-                return $"Ready : {ReadyCount}";
+                return $"{ReadyCount}";
             }
 
             int secondsRemaining = Math.Max(0, CountDown);
@@ -341,10 +341,10 @@ namespace BoxingClock.Services
 
             if (IsRoundTime)
             {
-                return $"Round {CurrentRound} : {formattedTime}";
+                return $"Round {CurrentRound}\n{formattedTime}";
             }
 
-            return $"Break : {formattedTime}";
+            return $"Break\n{formattedTime}";
         }
 
         private void UpdateRoundStatusText()

@@ -9,8 +9,8 @@ namespace BoxingClock.Services
         private static readonly Dictionary<SoundTheme, SoundThemeFiles> ThemeFiles = new()
         {
             [SoundTheme.Default] = new SoundThemeFiles(
-                BellStart: "BoxingBell - Start.wav",
-                BellEnd: "BoxingBell.wav",
+                BellStart: "BoxingBell_1.wav",
+                BellEnd: "BoxingBell_1.wav",
                 Warning10s: "10sec.wav",
                 Tick: "Tick.wav"),
             [SoundTheme.Alt] = new SoundThemeFiles(

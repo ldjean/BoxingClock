@@ -51,14 +51,51 @@
 	  <AndroidLinkTool>r8</AndroidLinkTool>
 	  <DebugSymbols>True</DebugSymbols>
 	  <RunAOTCompilation>True</RunAOTCompilation>
+	  <ApplicationDisplayVersion>1.1.1</ApplicationDisplayVersion>
+	  <ApplicationVersion>17</ApplicationVersion>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net9.0-android|AnyCPU'">
+	  <ApplicationDisplayVersion>1.1.1</ApplicationDisplayVersion>
+	  <ApplicationVersion>17</ApplicationVersion>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net9.0-ios|AnyCPU'">
+	  <ApplicationDisplayVersion>1.1.1</ApplicationDisplayVersion>
+	  <ApplicationVersion>17</ApplicationVersion>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-maccatalyst|AnyCPU'">
+	  <ApplicationDisplayVersion>1.1.1</ApplicationDisplayVersion>
+	  <ApplicationVersion>17</ApplicationVersion>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net9.0-windows10.0.26100.0|AnyCPU'">
+	  <ApplicationDisplayVersion>1.1.1</ApplicationDisplayVersion>
+	  <ApplicationVersion>17</ApplicationVersion>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net9.0-ios|AnyCPU'">
+	  <ApplicationDisplayVersion>1.1.1</ApplicationDisplayVersion>
+	  <ApplicationVersion>17</ApplicationVersion>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-maccatalyst|AnyCPU'">
+	  <ApplicationDisplayVersion>1.1.1</ApplicationDisplayVersion>
+	  <ApplicationVersion>17</ApplicationVersion>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net9.0-windows10.0.26100.0|AnyCPU'">
+	  <ApplicationDisplayVersion>1.1.1</ApplicationDisplayVersion>
+	  <ApplicationVersion>17</ApplicationVersion>
 	</PropertyGroup>
 
 	<ItemGroup>
 		<!-- App Icon -->
-		<MauiIcon Include="Resources\AppIcon\bsbicon.svg" BaseSize="512" />
+		<MauiIcon Include="Resources\AppIcon\bsbicon.png" ForegroundFile="Resources\AppIcon\bsbicon.png" BaseSize="512" />
 
 		<!-- Splash Screen -->
-		<MauiSplashScreen Include="Resources\Splash\test_splash.png" Color="#000808" BaseSize="512" />
+		<MauiSplashScreen Include="Resources\Splash\mainlauncher.png" Color="#000000" BaseSize="228,228" />
 		
 		<!-- Notification Icon -->
 		<MauiImage Include="Resources\AppIcon\bsb1.png" />
@@ -95,6 +132,11 @@
 	<ItemGroup>
 	  <None Remove="Controls\TimePickerDialog.xaml.cs.old" />
 	  <None Remove="Controls\TimePickerDialog.xaml.old" />
+	  <None Remove="Platforms\Android\Resources\layout\notification_timer.xml" />
+	</ItemGroup>
+	
+	<ItemGroup>
+	  <AndroidResource Include="Platforms\Android\Resources\layout\notification_timer.xml" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -137,6 +179,10 @@
 	  <PackageReference Include="Plugin.MauiMTAdmob">
 	    <Version>2.0.2</Version>
 	  </PackageReference>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Update="Resources\Splash\bsb_launcher.svg" Color="#000808" BaseSize="228,228" />
 	</ItemGroup>
 
 </Project>

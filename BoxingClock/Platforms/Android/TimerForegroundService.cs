@@ -3,6 +3,7 @@ using Android.Content;
 using Android.Content.PM;
 using Android.OS;
 using Android.Widget;
+using Java.Lang;
 using AndroidX.Core.App;
 
 namespace BoxingClock.Platforms.Android
@@ -80,15 +81,20 @@ namespace BoxingClock.Platforms.Android
                 launchIntent,
                 PendingIntentFlags.UpdateCurrent | PendingIntentFlags.Immutable);
 
-            
+            var customView = new global::Android.Widget.RemoteViews(PackageName, Resource.Layout.notification_timer);
+            customView.SetTextViewText(Resource.Id.timer_status, global::Java.Lang.String.ValueOf(statusText));
 
             return new NotificationCompat.Builder(this, ChannelId)
-                .SetContentTitle("Boxing Timer")
-                .SetContentText(statusText)
+                //.SetContentText(statusText)
                 .SetSmallIcon(CommunityToolkit.Maui.Resource.Drawable.bsb1)
                 .SetContentIntent(pendingIntent)
+                .SetCustomContentView(customView)
+                .SetStyle(new NotificationCompat.DecoratedCustomViewStyle())
+                .SetColorized(true)
+                .SetColor(global::Android.Graphics.Color.Black)
                 .SetOngoing(true)
                 .SetOnlyAlertOnce(true)
+                .SetShowWhen(false)
                 .Build();
 
         }
